@@ -1,15 +1,20 @@
 require 'sinatra'
+require 'json'
 
 set :bind, '0.0.0.0'
+set :port, ENV['PORT']
 
 get '/hello' do
-  "world"
+'world'
 end
 
-# there is no callback for sinatra startup
-# wait 1s and print READY
+get '/hello-json' do
+  content_type :json
+  { :hello => 'world' }.to_json
+end
+
 Thread.new do
   sleep 1
-  STDOUT.puts 'READY'
+  print 'READY'
   STDOUT.flush
 end

@@ -1,11 +1,17 @@
 'use strict';
+const express = require('express');
+const app = express();
 
-var express = require('express');
-var app = express();
+app.get('/hello', (req, res) => {
+  res.send('world');
+});
 
-app.get("/hello", (req, res) => res.end("world"));
+app.get('/hello-json', (req, res) => {
+  res.json({
+    hello: 'world'
+  });
+});
 
 app.listen(process.env.PORT, function () {
-    console.log('Listening on', process.env.PORT);
-    console.log('READY');
+  console.log('READY');
 });

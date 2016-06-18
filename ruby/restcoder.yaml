@@ -1,0 +1,21 @@
+##########################################
+# This is a restcoder configuration file #
+# Edit on your own risk                  #
+##########################################
+
+# the problem to solve
+problemId: 1 # Starter: Hello world
+
+# your target language
+language: ruby
+
+# postman collection id used for local testing
+postmanCollectionId: d09de96534241d023f98
+
+# config for `restcoder start`
+instances:
+  web: 1
+
+# list of variables required for `restcoder start`
+env:
+  

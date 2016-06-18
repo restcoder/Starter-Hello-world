@@ -5,7 +5,7 @@ using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading;
-using System.Web.Http; 
+using System.Web.Http;
 
 namespace App
 {
@@ -13,14 +13,11 @@ namespace App
     {
         static void Main(string[] args)
         {
-            var port = Environment.GetEnvironmentVariable("PORT") == null ?
-                8080 : int.Parse(Environment.GetEnvironmentVariable("PORT"));
             WebApp.Start<App>(new StartOptions
             {
-                Port = port,
+                Port = int.Parse(Environment.GetEnvironmentVariable("PORT")),
                 ServerFactory = "Nowin"
             });
-            Console.WriteLine("Listening on " + port);
             Console.WriteLine("READY");
 
             Thread.Sleep(Timeout.Infinite);
@@ -31,23 +28,29 @@ namespace App
     {
         public void Configuration(IAppBuilder app)
         {
-            //setup web api
             var config = new HttpConfiguration();
-            config.Routes.MapHttpRoute(
-                "Default", "{controller}/{action}",
-                new { action = "Index" });
+            config.MapHttpAttributeRoutes();
             app.UseWebApi(config);
         }
     }
 
-    public class HelloController : ApiController
+    public class HelloWorldController : ApiController
     {
+
+        [Route("hello")]
         [HttpGet]
-        public HttpResponseMessage Index()
+        public HttpResponseMessage Hello()
         {
             var response = new HttpResponseMessage();
             response.Content = new StringContent("world", System.Text.Encoding.UTF8, "text/html");
             return response;
+        }
+
+        [Route("hello-json")]
+        [HttpGet]
+        public object HelloJson()
+        {
+            return new {hello = "world"};
         }
     }
 }
